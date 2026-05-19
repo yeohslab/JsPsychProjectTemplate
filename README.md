@@ -24,6 +24,19 @@ npm run build
 
 产物在 `dist/`，可部署到任意静态托管（GitHub Pages、Nginx 等）。使用 **Hash 路由**（`#/editor`、`#/runner`），无需服务端 rewrite。
 
+### GitHub Pages
+
+本仓库为 Vite 项目，**不能把 `main` 根目录的源码直接当站点**（浏览器无法运行 `.ts`，且 `index.html` 里 `/src/main.ts` 在 Pages 子路径下会 404，表现为白屏）。
+
+推荐做法（仓库已含 [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)）：
+
+1. 将工作流推送到 `main`。
+2. 打开仓库 **Settings → Pages**。
+3. **Build and deployment → Source** 选 **GitHub Actions**（不要选 “Deploy from a branch” 的 `/(root)`）。
+4. 等待 **Actions** 里 “Deploy to GitHub Pages” 跑绿后，访问 `https://<用户名>.github.io/JsPsychProjectTemplate/#/editor`。
+
+`vite.config.ts` 中 `base: "./"` 已适配项目站子路径（如 `/JsPsychProjectTemplate/`）。
+
 ```bash
 npm run preview
 ```
